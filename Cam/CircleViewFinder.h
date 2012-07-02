@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  CircleViewFinder.h
 //  Cam
 //
 //  Created by Sam Contapay on 6/28/12.
@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController <UIImagePickerControllerDelegate>
+@interface CircleViewFinder : UIView
 
-- (IBAction)clickedCamera:(id)sender;
 @end
