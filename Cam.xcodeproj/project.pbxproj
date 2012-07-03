@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0626238715A274DB00F2F381 /* CropperController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626238515A274DB00F2F381 /* CropperController.m */; };
+		0626238815A274DB00F2F381 /* CropperController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0626238615A274DB00F2F381 /* CropperController.xib */; };
+		0626238A15A2758B00F2F381 /* 180_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0626238915A2758B00F2F381 /* 180_circle.png */; };
+		0626238C15A2758F00F2F381 /* 180_circle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0626238B15A2758F00F2F381 /* 180_circle@2x.png */; };
+		0626238E15A2827F00F2F381 /* photo_cropper_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0626238D15A2827F00F2F381 /* photo_cropper_bg.png */; };
+		0626239015A2828500F2F381 /* photo_cropper_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0626238F15A2828500F2F381 /* photo_cropper_bg@2x.png */; };
 		06708C12159CD7F900F0866D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06708C11159CD7F900F0866D /* UIKit.framework */; };
 		06708C14159CD7F900F0866D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06708C13159CD7F900F0866D /* Foundation.framework */; };
 		06708C16159CD7F900F0866D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06708C15159CD7F900F0866D /* CoreGraphics.framework */; };
@@ -19,6 +25,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0626238415A274DB00F2F381 /* CropperController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CropperController.h; sourceTree = "<group>"; };
+		0626238515A274DB00F2F381 /* CropperController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CropperController.m; sourceTree = "<group>"; };
+		0626238615A274DB00F2F381 /* CropperController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CropperController.xib; sourceTree = "<group>"; };
+		0626238915A2758B00F2F381 /* 180_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 180_circle.png; sourceTree = "<group>"; };
+		0626238B15A2758F00F2F381 /* 180_circle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "180_circle@2x.png"; sourceTree = "<group>"; };
+		0626238D15A2827F00F2F381 /* photo_cropper_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_cropper_bg.png; sourceTree = "<group>"; };
+		0626238F15A2828500F2F381 /* photo_cropper_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo_cropper_bg@2x.png"; sourceTree = "<group>"; };
 		06708C0D159CD7F900F0866D /* Cam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06708C11159CD7F900F0866D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		06708C13159CD7F900F0866D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -50,6 +63,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0626238215A274BB00F2F381 /* Cropper */ = {
+			isa = PBXGroup;
+			children = (
+				0626238D15A2827F00F2F381 /* photo_cropper_bg.png */,
+				0626238F15A2828500F2F381 /* photo_cropper_bg@2x.png */,
+				0626238B15A2758F00F2F381 /* 180_circle@2x.png */,
+				0626238915A2758B00F2F381 /* 180_circle.png */,
+				0626238415A274DB00F2F381 /* CropperController.h */,
+				0626238515A274DB00F2F381 /* CropperController.m */,
+				0626238615A274DB00F2F381 /* CropperController.xib */,
+			);
+			name = Cropper;
+			sourceTree = "<group>";
+		};
 		06708C02159CD7F900F0866D = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +107,7 @@
 		06708C17159CD7F900F0866D /* Cam */ = {
 			isa = PBXGroup;
 			children = (
+				0626238215A274BB00F2F381 /* Cropper */,
 				06708C20159CD7F900F0866D /* AppDelegate.h */,
 				06708C21159CD7F900F0866D /* AppDelegate.m */,
 				06708C23159CD7F900F0866D /* ViewController.h */,
@@ -155,6 +183,11 @@
 			files = (
 				06708C1C159CD7F900F0866D /* InfoPlist.strings in Resources */,
 				06708C28159CD7F900F0866D /* ViewController.xib in Resources */,
+				0626238815A274DB00F2F381 /* CropperController.xib in Resources */,
+				0626238A15A2758B00F2F381 /* 180_circle.png in Resources */,
+				0626238C15A2758F00F2F381 /* 180_circle@2x.png in Resources */,
+				0626238E15A2827F00F2F381 /* photo_cropper_bg.png in Resources */,
+				0626239015A2828500F2F381 /* photo_cropper_bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +202,7 @@
 				06708C22159CD7F900F0866D /* AppDelegate.m in Sources */,
 				06708C25159CD7F900F0866D /* ViewController.m in Sources */,
 				06C96ECD159CEC3C003ECD70 /* CircleViewFinder.m in Sources */,
+				0626238715A274DB00F2F381 /* CropperController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

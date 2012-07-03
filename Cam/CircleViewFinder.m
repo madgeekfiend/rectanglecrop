@@ -60,8 +60,8 @@
     
     // Full size portrait image is 2448x3264 from the iphone
     
-    CGRect square = CGRectMake(rect.origin.x+10, rect.origin.y+90, 300, 300);
-    
+    //CGRect square = CGRectMake(rect.origin.x+10, rect.origin.y+90, 300, 300);
+    CGRect square = CGRectMake(rect.size.width/2 - (.9 * rect.size.width)/2, rect.size.height/2 - (.9 * rect.size.width)/2, rect.size.width * .9, rect.size.width * .9);
     
     // Intersect for circle becuase it does intercept
     CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);

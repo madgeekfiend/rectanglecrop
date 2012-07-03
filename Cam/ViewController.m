@@ -19,6 +19,7 @@ static inline double radians (double degrees) {return degrees * M_PI/180;}
     -(UIImage *)fixOrientation : (UIImage *)img;
     -(UIImage*)cropImage:(UIImage*)originalImage toRect:(CGRect)rect;
     -(UIImage*)cropImageToPoint:(UIImage*)oldImage;
+- (CGRect) TransformCGRectForUIImageOrientation: (CGRect) source: (UIImageOrientation) orientation: (CGSize) imageSize;
 @end
 
 @implementation ViewController
@@ -45,13 +46,13 @@ static inline double radians (double degrees) {return degrees * M_PI/180;}
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.delegate = (id)self;
     picker.allowsEditing = NO;
-    picker.wantsFullScreenLayout = YES;
+    //picker.wantsFullScreenLayout = YES;
     
     //UIView *vi = [[UIView alloc] initWithFrame:CGRectMake(100, 20, 200, 130)];
-    CircleViewFinder *vi = [[CircleViewFinder alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
-    vi.backgroundColor = [UIColor clearColor];
+    //CircleViewFinder *vi = [[CircleViewFinder alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+    //vi.backgroundColor = [UIColor clearColor];
     
-    picker.cameraOverlayView = vi;
+    //picker.cameraOverlayView = vi;
     
     [self presentModalViewController:picker animated:YES];
 }
@@ -67,14 +68,20 @@ static inline double radians (double degrees) {return degrees * M_PI/180;}
     NSLog(@"HERE"); 
     UIImage *img = [info objectForKey:UIImagePickerControllerOriginalImage];
     
+    
+    
+    /*
     NSLog(@"%f X %f", img.size.width, img.size.height);
-    CGAffineTransform transformers = picker.cameraViewTransform;
-    
-   
-    
     //CGRect square = CGRectMake( 10 * ((img.size.width * img.scale)/320.0f) * img.scale, 90 * img.scale * ((img.size.height * img.scale)/480.0f), 300 * img.scale * ((img.size.width * img.scale)/320.0f), 300 * img.scale * ((img.size.height * img.scale)/480.0f));
     //UIImage *cropped = [self imageByCropping:img toRect:square];
-    CGRect square = CGRectMake( roundf( 61 * PIXEL_Y_RATIO ), roundf( 33 * PIXEL_X_RATIO ), roundf(300 * PIXEL_Y_RATIO), roundf( 300 * PIXEL_X_RATIO ));
+    //CGRect square = CGRectMake( roundf( 61 * PIXEL_Y_RATIO ), roundf( 33 * PIXEL_X_RATIO ), roundf(300 * PIXEL_Y_RATIO) * 2.0, roundf( 300 * PIXEL_X_RATIO ) * 2.0);
+    
+    int x = roundf(img.size.width/2 - (.9 * img.size.width)/2);
+    int y = roundf(img.size.height/2 - (.9 * img.size.width)/2);
+    int radius = roundf(img.size.width * .9);
+    CGRect square = CGRectMake( y + 180, x, radius, radius);
+    
+    
     //CGAffineTransform scaleTrans =  CGAffineTransformMakeScale(PIXEL_X_RATIO, PIXEL_Y_RATIO);
     
     //CGAffineTransform newSquare = CGAffineTransformScale(transformers, PIXEL_X_RATIO, PIXEL_Y_RATIO);
@@ -83,8 +90,19 @@ static inline double radians (double degrees) {return degrees * M_PI/180;}
     //CGRect thisrect = CGRectApplyAffineTransform(square, newSquare);
     
     UIImageWriteToSavedPhotosAlbum([self cropImage:img toRect:square], nil, nil, nil);
+*/
+    [picker dismissModalViewControllerAnimated:NO];
+    
+    // now we have an image
+    CropperController *cc = [[CropperController alloc] initWithPhoto:img delegate:self];
+    [cc setMinZoomScale:0.75f];
+    [cc setMaxZoomScale:1.50f];
+    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:cc];
+    [self presentModalViewController:nav animated:YES];
+    
 
-    [picker dismissModalViewControllerAnimated:YES];
+
 }
 
 - (UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect {
@@ -94,6 +112,36 @@ static inline double radians (double degrees) {return degrees * M_PI/180;}
     
     [self fixOrientation:retImage];
     return retImage;
+}
+
+- (CGRect) TransformCGRectForUIImageOrientation: (CGRect) source: (UIImageOrientation) orientation: (CGSize) imageSize {
+    
+    switch (orientation) {
+        case UIImageOrientationLeft: { // EXIF #8
+            CGAffineTransform txTranslate = CGAffineTransformMakeTranslation(
+                                                                             imageSize.height, 0.0);
+            CGAffineTransform txCompound = CGAffineTransformRotate(txTranslate,
+                                                                   M_PI_2);
+            return CGRectApplyAffineTransform(source, txCompound);
+        }
+        case UIImageOrientationDown: { // EXIF #3
+            CGAffineTransform txTranslate = CGAffineTransformMakeTranslation(
+                                                                             imageSize.width, imageSize.height);
+            CGAffineTransform txCompound = CGAffineTransformRotate(txTranslate,
+                                                                   M_PI);
+            return CGRectApplyAffineTransform(source, txCompound);
+        }
+        case UIImageOrientationRight: { // EXIF #6
+            CGAffineTransform txTranslate = CGAffineTransformMakeTranslation(
+                                                                             0.0, imageSize.width);
+            CGAffineTransform txCompound = CGAffineTransformRotate(txTranslate,
+                                                                   M_PI + M_PI_2);
+            return CGRectApplyAffineTransform(source, txCompound);
+        }
+        case UIImageOrientationUp: // EXIF #1 - do nothing
+        default: // EXIF 2,4,5,7 - ignore
+            return source;
+    }
 }
 
 // For some reason we have to use this to fix orientation on saved images because this is DUMB as usual - Screw iOS shit should be easier
@@ -212,6 +260,17 @@ static inline double radians (double degrees) {return degrees * M_PI/180;}
     UIImage *croppedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return croppedImage;
+}
+
+#pragma mark - Cropper Controller
+-(void)photoCropper:(CropperController *)photoCropper didCropPhoto:(UIImage *)photo
+{
+    UIImageWriteToSavedPhotosAlbum(photo, nil, nil, nil);
+}
+
+-(void)photoCropperDidCancel:(CropperController *)photoCropper
+{
+    [photoCropper dismissModalViewControllerAnimated:YES];
 }
 
 @end
