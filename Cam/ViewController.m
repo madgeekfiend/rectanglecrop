@@ -94,15 +94,23 @@ static inline double radians (double degrees) {return degrees * M_PI/180;}
     [picker dismissModalViewControllerAnimated:NO];
     
     // now we have an image
-    CropperController *cc = [[CropperController alloc] initWithPhoto:img delegate:self];
-    [cc setMinZoomScale:0.75f];
-    [cc setMaxZoomScale:1.50f];
-    
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:cc];
-    [self presentModalViewController:nav animated:YES];
+//    CropperController *cc = [[CropperController alloc] initWithPhoto:img delegate:self];
+//    [cc setMinZoomScale:0.75f];
+//    [cc setMaxZoomScale:1.50f];
+//    
+//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:cc];
+//    [self presentModalViewController:nav animated:YES];
     
 
-
+    SSPhotoCropperViewController *photoCropper =
+    [[SSPhotoCropperViewController alloc] initWithPhoto:img
+                                               delegate:self
+                                                 uiMode:SSPCUIModePresentedAsModalViewController
+                                        showsInfoButton:YES];
+    [photoCropper setMinZoomScale:0.75f];
+    [photoCropper setMaxZoomScale:1.50f];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:photoCropper];
+    [self presentModalViewController:nc animated:YES];
 }
 
 - (UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect {
@@ -263,14 +271,13 @@ static inline double radians (double degrees) {return degrees * M_PI/180;}
 }
 
 #pragma mark - Cropper Controller
--(void)photoCropper:(CropperController *)photoCropper didCropPhoto:(UIImage *)photo
-{
+
+-(void)photoCropper:(SSPhotoCropperViewController *)photoCropper didCropPhoto:(UIImage *)photo{
     UIImageWriteToSavedPhotosAlbum(photo, nil, nil, nil);
 }
 
--(void)photoCropperDidCancel:(CropperController *)photoCropper
+-(void)photoCropperDidCancel:(SSPhotoCropperViewController *)photoCropper
 {
     [photoCropper dismissModalViewControllerAnimated:YES];
 }
-
 @end

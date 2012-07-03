@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "CropperController.h"
+#import "SSPhotoCropperViewController.h"
 
-@interface ViewController : UIViewController <UIImagePickerControllerDelegate, CropperControllerDelegate>
+@interface ViewController : UIViewController <UIImagePickerControllerDelegate, SSPhotoCropperDelegate>
 
 - (IBAction)clickedCamera:(id)sender;
 @end
